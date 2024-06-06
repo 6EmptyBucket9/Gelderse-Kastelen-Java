@@ -13,9 +13,7 @@ import org.springframework.util.ReflectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.example.Gelderse_Kastelen_Java.models.User;
-
-import com.example.Gelderse_Kastelen_Java.models.UserModify;
-import com.example.Gelderse_Kastelen_Java.repositories.UserModifyRepository;
+import com.example.Gelderse_Kastelen_Java.models.UserLoginDTO;
 import com.example.Gelderse_Kastelen_Java.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -24,8 +22,6 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class UserService {
 
-    @Autowired
-    UserModifyRepository userModifyRepository;
     @Autowired
     UserRepository userRepository;
 
@@ -96,48 +92,48 @@ public class UserService {
     }
 
     // Map entity to DTO
-    // private UserDTO mapToDTO(UserModify existingAccount) {
-    // UserDTO dto = new UserDTO();
-    // dto.setUserEmail(existingAccount.getEmail());
-    // dto.setUserName(existingAccount.getNaam() + existingAccount.getAchternaam());
-    // dto.setUserRole(userModifyRepository.findUserRoleByEmail(existingAccount.getEmail()));
-    // // Map other attributes
-    // return dto;
-    // }
+    private UserLoginDTO mapToDTO(User existingAccount) {
+        UserLoginDTO dto = new UserLoginDTO();
+        dto.setUserEmail(existingAccount.getEmail());
+        dto.setUserName(existingAccount.getNaam() + " " + existingAccount.getAchternaam());
+        dto.setUserRole(existingAccount.getRol());
+        dto.setUserRang(existingAccount.getRang());
+        // Map other attributes
+        return dto;
+    }
 
     // Modify the validateUser method to return a DTO
-    // public UserDTO validateUser(Map<String, Object> fields) {
-    // try {
-    // final Object[] loginUsername = { null };
-    // final Object[] loginPassword = { null };
-    // fields.forEach((key, value) -> {
-    // if ("userEmail".equals(key)) {
-    // loginUsername[0] = value;
-    // }
-    // if ("userPassword".equals(key)) {
-    // loginPassword[0] = value;
-    // }
-    // });
+    public UserLoginDTO validateUser(Map<String, Object> fields) {
+        try {
+            final Object[] loginUsername = { null };
+            final Object[] loginPassword = { null };
+            fields.forEach((key, value) -> {
+                if ("email".equals(key)) {
+                    loginUsername[0] = value;
+                }
+                if ("wachtwoord".equals(key)) {
+                    loginPassword[0] = value;
+                }
+            });
 
-    // List<UserModify> existingAccounts =
-    // userModifyRepository.validationByEmail(loginUsername[0].toString());
+            List<User> existingAccounts = userRepository.validationByEmail(loginUsername[0].toString());
 
-    // if (existingAccounts.isEmpty()) {
-    // return null;
-    // }
+            if (existingAccounts.isEmpty()) {
+                return null;
+            }
 
-    // UserModify existingAccount = existingAccounts.get(0);
-    // String hashedPassword = existingAccount.getWachtwoord();
+            User existingAccount = existingAccounts.get(0);
+            String hashedPassword = existingAccount.getWachtwoord();
 
-    // BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    // if (encoder.matches(loginPassword[0].toString(), hashedPassword)) {
-    // return mapToDTO(existingAccount);
-    // } else {
-    // return null;
-    // }
-    // } catch (Exception e) {
-    // throw new IllegalArgumentException(e);
-    // }
-    // }
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            if (encoder.matches(loginPassword[0].toString(), hashedPassword)) {
+                return mapToDTO(existingAccount);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
 
 }
