@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Gelderse_Kastelen_Java.models.User;
-import com.example.Gelderse_Kastelen_Java.models.UserModify;
+import com.example.Gelderse_Kastelen_Java.models.UserRegisterDTO;
 import com.example.Gelderse_Kastelen_Java.services.UserService;
 
 @RestController
@@ -30,8 +30,8 @@ public class UserController {
     }
 
     // POST method to post users
-    @PostMapping
-    public User postUser(@RequestBody User user) {
+    @PostMapping(value="/create")
+    public UserRegisterDTO postUser(@RequestBody UserRegisterDTO user) {
         return userService.postUser(user);
     }
 

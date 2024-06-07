@@ -12,8 +12,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserDTO {
+public class UserRegisterDTO {   
+    private String userNaam;
+    private String userAchternaam;
     private String userEmail;
-    private String userName;
-    private String userRole;
+    private String userWachtwoord;
+    private String userRang;
+    private String userRol;
 }

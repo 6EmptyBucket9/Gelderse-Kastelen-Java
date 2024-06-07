@@ -16,8 +16,8 @@ import com.example.Gelderse_Kastelen_Java.models.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer>, JpaSpecificationExecutor<User> {
     
-    @Query("SELECT u FROM  User u WHERE ( u.email = :email) AND u.userId <> :id")
-    public List<User> findUserByEmail(@Param("email") String email, @Param("id") Integer id);
+    @Query("SELECT u FROM  User u WHERE ( u.email = :email)")
+    public List<User> findUserByEmail(@Param("email") String email);
 
     @Query("SELECT u.rol FROM  User u WHERE u.email = :email")
     String findUserRoleByEmail(@Param("email") String email);

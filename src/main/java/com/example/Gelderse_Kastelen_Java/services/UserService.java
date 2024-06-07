@@ -13,9 +13,7 @@ import org.springframework.util.ReflectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.example.Gelderse_Kastelen_Java.models.User;
-
-import com.example.Gelderse_Kastelen_Java.models.UserModify;
-import com.example.Gelderse_Kastelen_Java.repositories.UserModifyRepository;
+import com.example.Gelderse_Kastelen_Java.models.UserRegisterDTO;
 import com.example.Gelderse_Kastelen_Java.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -24,8 +22,6 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class UserService {
 
-    @Autowired
-    UserModifyRepository userModifyRepository;
     @Autowired
     UserRepository userRepository;
 
@@ -40,19 +36,20 @@ public class UserService {
     }
 
     // Post method
-    public User postUser(User user) {
+    public UserRegisterDTO postUser(UserRegisterDTO user) {
         try {
-            List<User> existingUser = userRepository.findUserByEmail(user.getEmail(), user.getUserId());
-            if (!existingUser.isEmpty()) {
-                throw new IllegalArgumentException("Account is already made with entered email");
-            } else {
-                user.setWachtwoord(passwordEncoder(user.getWachtwoord()));
-                return userRepository.save(user);
+            List<User> existingUsers = userRepository.findUserByEmail(user.getUserEmail());
+            if (!existingUsers.isEmpty()) {
+                throw new IllegalArgumentException("An account with the entered email already exists.");
             }
+            user.setUserWachtwoord(passwordEncoder(user.getUserWachtwoord()));
+            userRepository.save(convertToUser(user));
+            return user;
+        } catch (IllegalArgumentException e) {
+            throw e;
         } catch (Exception e) {
-            throw new IllegalArgumentException(e);
+            throw new IllegalArgumentException("An unexpected error occurred while registering the user.", e);
         }
-
     }
 
     // Patch method
@@ -93,6 +90,17 @@ public class UserService {
 
         String encodedPassword = passwordEncoder.encode(password);
         return encodedPassword;
+    }
+
+    private User convertToUser(UserRegisterDTO userRegisterDTO) {
+        User user = new User();
+        user.setNaam(userRegisterDTO.getUserNaam());
+        user.setAchternaam(userRegisterDTO.getUserAchternaam());
+        user.setEmail(userRegisterDTO.getUserEmail());
+        user.setWachtwoord(userRegisterDTO.getUserWachtwoord());
+        user.setRang(userRegisterDTO.getUserRang());
+        user.setRol(userRegisterDTO.getUserRol());
+        return user;
     }
 
     // Map entity to DTO
