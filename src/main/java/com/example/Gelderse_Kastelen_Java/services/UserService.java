@@ -107,6 +107,7 @@ public class UserService {
     // Map entity to DTO
     private UserLoginDTO mapToDTO(User existingAccount) {
         UserLoginDTO dto = new UserLoginDTO();
+        dto.setUserId(existingAccount.getUserId());
         dto.setUserEmail(existingAccount.getEmail());
         dto.setUserName(existingAccount.getNaam() + " " + existingAccount.getAchternaam());
         dto.setUserRole(existingAccount.getRol());
