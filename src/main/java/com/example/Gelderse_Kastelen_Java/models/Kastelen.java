@@ -41,6 +41,9 @@ public class Kastelen {
     @NotBlank
     @Column(name = "locatie")
     private String locatie;
+    @NotBlank
+    @Column(name = "kastelen_img_url")
+    private String kastelenImgUrl;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "kastelen_has_content", joinColumns = @JoinColumn(name = "kastelen_kastelen_id", referencedColumnName = "kastelen_id"), inverseJoinColumns = @JoinColumn(name = "content_content_id", referencedColumnName = "content_id"))

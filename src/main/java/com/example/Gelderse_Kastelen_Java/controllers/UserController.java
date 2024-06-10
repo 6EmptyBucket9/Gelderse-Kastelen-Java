@@ -32,16 +32,17 @@ public class UserController {
     }
 
     // POST method to post users
-    @PostMapping(value="/create")
+    @PostMapping(value = "/create")
     public UserRegisterDTO postUser(@RequestBody UserRegisterDTO user) {
         return userService.postUser(user);
     }
 
     // Patch method for updating users
-    @PatchMapping(value = "/patch/user/{id}")
-    public User patchUser(@PathVariable(value = "id", required = false) int id,
-            @RequestBody Map<String, Object> fields) {
-        return userService.patchUser(id, fields);
+    @PatchMapping("/patch/user/{id}")
+    public ResponseEntity<?> patchUser(@PathVariable("id") int id, @RequestBody Map<String, Object> fields) {
+            // Your service logic here
+            userService.patchUser(id, fields);
+            return null;
     }
 
     @PostMapping("/login")

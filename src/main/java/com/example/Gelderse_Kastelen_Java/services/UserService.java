@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,7 +55,7 @@ public class UserService {
     }
 
     // Patch method
-    public User patchUser(int id, Map<String, Object> fields) {
+    public ResponseEntity<?> patchUser(int id, Map<String, Object> fields) {
         try {
             Optional<User> existingUser = userRepository.findById(id);
             if (existingUser.isPresent()) {
@@ -75,7 +76,7 @@ public class UserService {
 
                     }
                 });
-                return userRepository.save(existingUser.get());
+                return null;
             } else {
                 throw new IllegalArgumentException("user not found");
             }
