@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.example.Gelderse_Kastelen_Java.models.TourCalendar;
 import com.example.Gelderse_Kastelen_Java.models.User;
 import com.example.Gelderse_Kastelen_Java.models.UserRegisterDTO;
 import com.example.Gelderse_Kastelen_Java.models.UserLoginDTO;
+import com.example.Gelderse_Kastelen_Java.repositories.TourRepository;
 import com.example.Gelderse_Kastelen_Java.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -26,6 +28,9 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    TourRepository tourRepository;
 
     // Get method
     public Iterable<User> getUsers() {
@@ -150,5 +155,19 @@ public class UserService {
             throw new IllegalArgumentException(e);
         }
     }
+
+    public void linkTourToUser(Integer userId, Integer tourId) {
+    try {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        TourCalendar tour = tourRepository.findById(tourId)
+            .orElseThrow(() -> new RuntimeException("Tour not found"));
+
+        user.getTour().add(tour);
+        userRepository.save(user);
+    } catch (Exception e) {
+        throw new IllegalArgumentException("An unexpected error occurred while linking the tour to the user.", e);
+    }
+}
 
 }

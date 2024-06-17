@@ -1,9 +1,5 @@
 package com.example.Gelderse_Kastelen_Java.models;
 
-import java.sql.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,9 +34,8 @@ public class Tour {
     @Column(name = "beschrijving")
     private String beschrijving;
     @NotBlank
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "datum")
-    private Date datum;
+    private String datum;
     @NotBlank
     @Column(name = "locatie")
     private String locatie;
@@ -52,4 +47,6 @@ public class Tour {
   
     @JoinColumn(name="kastelen_kastelen_id", referencedColumnName = "kastelen_id")
     private Kastelen kastelen;
+
+    
 }

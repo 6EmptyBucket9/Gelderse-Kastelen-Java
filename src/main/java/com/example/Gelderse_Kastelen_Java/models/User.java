@@ -2,6 +2,8 @@ package com.example.Gelderse_Kastelen_Java.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -57,7 +59,8 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_has_tour", joinColumns = @JoinColumn(name = "user_user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "tour_tour_id", referencedColumnName = "tour_id"))
-    private List<Tour> tour;
+    @JsonManagedReference
+    private List<TourCalendar> tour;
 
     @OneToMany(mappedBy = "user")
     private List<Foto> fotos;

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,9 +41,9 @@ public class UserController {
     // Patch method for updating users
     @PatchMapping("/patch/user/{id}")
     public ResponseEntity<?> patchUser(@PathVariable("id") int id, @RequestBody Map<String, Object> fields) {
-            // Your service logic here
-            userService.patchUser(id, fields);
-            return null;
+        // Your service logic here
+        userService.patchUser(id, fields);
+        return null;
     }
 
     @PostMapping("/login")
@@ -57,6 +58,12 @@ public class UserController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request data");
         }
+    }
+
+    @PutMapping("/{userId}/tours/{tourId}")
+    public ResponseEntity<?> linkTourToUser(@PathVariable Integer userId, @PathVariable Integer tourId) {
+        userService.linkTourToUser(userId, tourId);
+        return ResponseEntity.ok("Tour linked to user successfully");
     }
 
 }
