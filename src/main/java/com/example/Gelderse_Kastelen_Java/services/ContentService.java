@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import com.example.Gelderse_Kastelen_Java.models.Content;
+import com.example.Gelderse_Kastelen_Java.models.Kastelen;
 import com.example.Gelderse_Kastelen_Java.repositories.ContentRepository;
+
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -19,6 +22,9 @@ public class ContentService {
 
     @Autowired
     ContentRepository contentRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     public ResponseEntity<?> patchContent(int id, Map<String, Object> fields) {
         try {
@@ -31,11 +37,31 @@ public class ContentService {
                 });
             }
             return null;
-        } catch (
-
-        Exception e) {
+        } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
     }
 
+    public ResponseEntity<Content> postContent(int kastelenId, Content content) {
+        try {
+            entityManager.persist(content);
+
+            // Find the existing Kastelen entity
+            Kastelen kastelen = entityManager.find(Kastelen.class, kastelenId);
+
+            if (kastelen == null) {
+                return ResponseEntity.notFound().build();
+            }
+            // Establish the relationship
+            kastelen.getContents().add(content);
+
+            // Persist the changes
+            entityManager.merge(kastelen);
+
+            // Return the persisted Content entity
+            return ResponseEntity.ok(content);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
 }
