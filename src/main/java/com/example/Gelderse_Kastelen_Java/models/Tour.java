@@ -1,5 +1,7 @@
 package com.example.Gelderse_Kastelen_Java.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,6 +48,7 @@ public class Tour {
     @ManyToOne
   
     @JoinColumn(name="kastelen_kastelen_id", referencedColumnName = "kastelen_id")
+    @JsonBackReference
     private Kastelen kastelen;
 
     
