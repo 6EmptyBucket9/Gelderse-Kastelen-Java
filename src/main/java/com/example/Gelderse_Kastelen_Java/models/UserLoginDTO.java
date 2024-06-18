@@ -18,4 +18,5 @@ public class UserLoginDTO {
     private String userName;
     private String userRole;
     private String userRang;
+    private String userPunten;
 }

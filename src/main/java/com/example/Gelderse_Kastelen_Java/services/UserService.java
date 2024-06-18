@@ -50,7 +50,9 @@ public class UserService {
                 throw new IllegalArgumentException("An account with the entered email already exists.");
             }
             user.setUserWachtwoord(passwordEncoder(user.getUserWachtwoord()));
-            userRepository.save(convertToUser(user));
+            User newUser = convertToUser(user);
+            newUser.setPunten("0");
+            userRepository.save(newUser);
             return user;
         } catch (IllegalArgumentException e) {
             throw e;
@@ -66,7 +68,7 @@ public class UserService {
             if (existingUser.isPresent()) {
                 fields.forEach((key, value) -> { // Map through fields
                     Field field = ReflectionUtils.findField(User.class, key);
-                    if ((key.toString() == "naam") && (key.toString() == "rol")
+                    if ((key.toString() == "naam") && (key.toString() == "rang")
                             && (!StringUtils.isAlphaSpace(value.toString()))) {
                         throw new IllegalArgumentException("Field cannot contain numbers or special characters");
                     } else {
@@ -118,6 +120,7 @@ public class UserService {
         dto.setUserName(existingAccount.getNaam() + " " + existingAccount.getAchternaam());
         dto.setUserRole(existingAccount.getRol());
         dto.setUserRang(existingAccount.getRang());
+        dto.setUserPunten(existingAccount.getPunten());
         // Map other attributes
         return dto;
     }

@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.Gelderse_Kastelen_Java.models.Kastelen;
 import com.example.Gelderse_Kastelen_Java.repositories.KastelenRepository;
 
@@ -27,8 +26,6 @@ public class KastelenService {
         return kastelenRepository.findAll();
     }
 
-    // Get by id method
-
     // Post method
     public Kastelen postKasteel(Kastelen kasteel) {
         try {
@@ -37,7 +34,7 @@ public class KastelenService {
         } catch (IllegalArgumentException e) {
             throw e;
         } catch (Exception e) {
-            throw new IllegalArgumentException("An unexpected error occurred while registering the user.", e);
+            throw new IllegalArgumentException("An unexpected error occured while posting kasteel.", e);
         }
     }
 
@@ -51,5 +48,4 @@ public class KastelenService {
         }
         return kastelenRepository.findById(id);
     }
-
 }

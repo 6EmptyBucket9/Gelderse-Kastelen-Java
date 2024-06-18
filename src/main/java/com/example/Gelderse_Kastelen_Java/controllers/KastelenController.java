@@ -27,12 +27,9 @@ public class KastelenController {
         return kastelenService.getKastelen();
     }
 
-    // GET Method by id
-
-    
     // GET Method to get vacancy by id
     @GetMapping(value = "/{id}")
-    public Optional<Kastelen> getVacancyById(@PathVariable int id) {
+    public Optional<Kastelen> getKasteelById(@PathVariable int id) {
         return kastelenService.getKasteelById(id);
     }
 
@@ -42,5 +39,6 @@ public class KastelenController {
     public Kastelen postKasteel(@RequestBody Kastelen kasteel) {
         return kastelenService.postKasteel(kasteel);
     }
+
 
 }
