@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -28,31 +29,33 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "User") // Specify which table needs to be used from the db
+@Table(name = "User")
 public class User {
-    // Specify which columns needs to be used from the db
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Generate random id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Integer userId;
+
     @NotBlank
     @Column(name = "naam")
     private String naam;
+
     @NotBlank
     @Column(name = "achternaam")
     private String achternaam;
+
     @NotBlank
     @Column(name = "email")
     private String email;
+
     @NotBlank
     @Column(name = "wachtwoord")
     private String wachtwoord;
-    @NotBlank
-    @Column(name = "rang")
-    private String rang;
+
     @NotBlank
     @Column(name = "punten")
     private String punten;
+
     @NotBlank
     @Column(name = "rol")
     private String rol;
@@ -64,4 +67,10 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Foto> fotos;
+    
+    @ManyToOne
+    @JoinColumn(name = "rangen_rang_id", referencedColumnName = "rang_id")
+    @JsonManagedReference
+    private Rang rang;
+
 }

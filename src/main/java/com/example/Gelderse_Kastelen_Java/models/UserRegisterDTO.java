@@ -18,6 +18,7 @@ public class UserRegisterDTO {
     private String userAchternaam;
     private String userEmail;
     private String userWachtwoord;
-    private String userRang;
+    private int rangRangenId;
     private String userRol;
+    
 }

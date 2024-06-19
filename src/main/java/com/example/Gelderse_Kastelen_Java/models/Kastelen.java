@@ -38,7 +38,7 @@ public class Kastelen {
     @Column(name = "naam")
     private String naam;
     @NotBlank
-    @Column(name = "beschrijving")
+    @Column(name = "beschrijving", columnDefinition="TEXT")
     private String beschrijving;
     @NotBlank
     @Column(name = "locatie")

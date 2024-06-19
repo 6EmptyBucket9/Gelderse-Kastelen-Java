@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.example.Gelderse_Kastelen_Java.models.Rang;
 import com.example.Gelderse_Kastelen_Java.models.TourCalendar;
 import com.example.Gelderse_Kastelen_Java.models.User;
 import com.example.Gelderse_Kastelen_Java.models.UserRegisterDTO;
 import com.example.Gelderse_Kastelen_Java.models.UserLoginDTO;
+import com.example.Gelderse_Kastelen_Java.repositories.RangenRepository;
 import com.example.Gelderse_Kastelen_Java.repositories.TourRepository;
 import com.example.Gelderse_Kastelen_Java.repositories.UserRepository;
 
@@ -32,6 +34,9 @@ public class UserService {
     @Autowired
     TourRepository tourRepository;
 
+    @Autowired
+     RangenRepository rangenRepository;
+
     // Get method
     public Iterable<User> getUsers() {
         try {
@@ -43,15 +48,23 @@ public class UserService {
     }
 
     // Post method
+
     public UserRegisterDTO postUser(UserRegisterDTO user) {
         try {
             List<User> existingUsers = userRepository.findUserByEmail(user.getUserEmail());
             if (!existingUsers.isEmpty()) {
                 throw new IllegalArgumentException("An account with the entered email already exists.");
             }
+            user.setRangRangenId(1);
             user.setUserWachtwoord(passwordEncoder(user.getUserWachtwoord()));
             User newUser = convertToUser(user);
             newUser.setPunten("0");
+
+            // Set Rang in User entity
+            Rang rang = rangenRepository.findById(user.getRangRangenId())
+                                      .orElseThrow(() -> new IllegalArgumentException("Rang not found"));
+            newUser.setRang(rang); 
+
             userRepository.save(newUser);
             return user;
         } catch (IllegalArgumentException e) {
@@ -107,7 +120,6 @@ public class UserService {
         user.setAchternaam(userRegisterDTO.getUserAchternaam());
         user.setEmail(userRegisterDTO.getUserEmail());
         user.setWachtwoord(userRegisterDTO.getUserWachtwoord());
-        user.setRang(userRegisterDTO.getUserRang());
         user.setRol(userRegisterDTO.getUserRol());
         return user;
     }
@@ -119,7 +131,7 @@ public class UserService {
         dto.setUserEmail(existingAccount.getEmail());
         dto.setUserName(existingAccount.getNaam() + " " + existingAccount.getAchternaam());
         dto.setUserRole(existingAccount.getRol());
-        dto.setUserRang(existingAccount.getRang());
+       dto.setRangRangenId(existingAccount.getRang().getRangId());
         dto.setUserPunten(existingAccount.getPunten());
         // Map other attributes
         return dto;
