@@ -53,7 +53,7 @@ public class ContentService {
                 return ResponseEntity.notFound().build();
             }
             // Establish the relationship
-            kastelen.getContents().add(content);
+            kastelen.getContent().add(content);
 
             // Persist the changes
             entityManager.merge(kastelen);

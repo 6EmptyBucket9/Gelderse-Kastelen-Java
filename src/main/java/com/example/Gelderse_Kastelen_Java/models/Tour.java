@@ -44,12 +44,11 @@ public class Tour {
     @NotBlank
     @Column(name = "punten")
     private String punten;
-
+    @Column(name = "url")
+    private String url;
+    
     @ManyToOne
-  
     @JoinColumn(name="kastelen_kastelen_id", referencedColumnName = "kastelen_id")
     @JsonBackReference
     private Kastelen kastelen;
-
-    
 }

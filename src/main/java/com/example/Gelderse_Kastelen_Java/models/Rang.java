@@ -33,7 +33,7 @@ public class Rang {
     private int rangPunten;
 
     @OneToMany(mappedBy = "rang")
-   @JsonBackReference
+    @JsonBackReference
     private List<User> users;
 
 }

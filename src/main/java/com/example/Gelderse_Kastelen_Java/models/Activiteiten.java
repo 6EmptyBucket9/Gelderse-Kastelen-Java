@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,17 +28,24 @@ public class Activiteiten {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "activiteiten_id")
-    private int employerId;
+    private int activiteitenId;
+    @NotBlank
     @Column(name = "type")
     private String type;
+    @NotBlank
     @Column(name = "punten_verdiend")
     private String puntenVerdiend;
+    @NotBlank
+    @Column(name = "beschrijving")
+    private String beschrijving;
+    @NotBlank
+    @Column(name = "datum")
+    private String datum;
+    @NotBlank
+    @Column(name = "url")
+    private String url;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "activiteiten_has_kastelen", joinColumns = @JoinColumn(name = "activiteiten_activiteiten_id", referencedColumnName = "activiteiten_id"), inverseJoinColumns = @JoinColumn(name = "kastelen_kastelen_id", referencedColumnName = "kastelen_id"))
     private List<Kastelen> kastelen;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "activiteiten_has_user", joinColumns = @JoinColumn(name = "activiteiten_activiteiten_id", referencedColumnName = "activiteiten_id"), inverseJoinColumns = @JoinColumn(name = "user_user_id", referencedColumnName = "user_id"))
-    private List<User> users;
 }

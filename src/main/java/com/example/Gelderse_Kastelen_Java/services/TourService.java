@@ -25,4 +25,16 @@ public class TourService {
         return tourRepository.findAll();
     }
 
+    // Post method
+    public TourCalendar postTour(TourCalendar tour) {
+        try {
+            tourRepository.save(tour);
+            return tour;
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new IllegalArgumentException("An unexpected error occured while posting tour.", e);
+        }
+    }
+
 }

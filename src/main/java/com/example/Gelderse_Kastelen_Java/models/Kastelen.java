@@ -49,7 +49,9 @@ public class Kastelen {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "kastelen_has_content", joinColumns = @JoinColumn(name = "kastelen_kastelen_id", referencedColumnName = "kastelen_id"), inverseJoinColumns = @JoinColumn(name = "content_content_id", referencedColumnName = "content_id"))
-    private List<Content> contents;
+    private List<Content> content;
+
+    
 
     @OneToMany(mappedBy = "kastelen")
     @JsonManagedReference

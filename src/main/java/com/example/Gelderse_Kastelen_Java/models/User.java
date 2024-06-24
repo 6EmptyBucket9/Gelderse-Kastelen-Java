@@ -73,4 +73,8 @@ public class User {
     @JsonManagedReference
     private Rang rang;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_has_activiteiten", joinColumns = @JoinColumn(name = "user_user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "activiteiten_activiteiten_id", referencedColumnName = "activiteiten_id"))
+    private List<Activiteiten> activiteiten;
+
 }

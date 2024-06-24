@@ -1,15 +1,10 @@
 package com.example.Gelderse_Kastelen_Java.models;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -45,8 +40,12 @@ public class TourCalendar {
     @NotBlank
     @Column(name = "punten")
     private String punten;
+    @NotBlank
+    @Column(name = "url")
+    private String url;
+    @NotBlank
+    @Column(name = "kastelen_kastelen_id")
+    private Integer kastelenId;
     
-    @ManyToMany(mappedBy = "tour")
-    @JsonBackReference
-    private List<User> users;
+    
 }
