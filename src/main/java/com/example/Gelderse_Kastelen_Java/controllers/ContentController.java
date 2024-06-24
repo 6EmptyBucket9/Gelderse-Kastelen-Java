@@ -23,7 +23,7 @@ public class ContentController {
     @Autowired
     ContentService contentService;
 
-    // GET Method to get all kastelen
+
     @PatchMapping(value = "/patch/contents/{id}")
     public ResponseEntity<?> patchContents(@PathVariable("id") int id, @RequestBody Map<String, Object> fields) {
         contentService.patchContent(id, fields);

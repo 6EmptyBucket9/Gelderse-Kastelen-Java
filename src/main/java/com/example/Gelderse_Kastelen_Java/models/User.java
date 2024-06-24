@@ -66,6 +66,7 @@ public class User {
     private List<TourCalendar> tour;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<Foto> fotos;
     
     @ManyToOne
