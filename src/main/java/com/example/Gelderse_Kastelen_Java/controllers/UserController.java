@@ -66,4 +66,13 @@ public class UserController {
         return ResponseEntity.ok("Tour linked to user successfully");
     }
 
+    @PutMapping("/{userId}/activiteiten/{activiteitId}")
+    public ResponseEntity<?> linkActiviteitToUser(@PathVariable Integer userId, @PathVariable Integer activiteitId) {
+        try{
+            userService.linkActiviteitToUser(userId, activiteitId);
+            return ResponseEntity.ok("Activiteit linked to user successfully");
+        } catch(IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request data");
+        }
+    }
 }

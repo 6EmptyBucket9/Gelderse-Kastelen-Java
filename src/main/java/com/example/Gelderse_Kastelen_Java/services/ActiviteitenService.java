@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.example.Gelderse_Kastelen_Java.models.Activiteiten;
 import com.example.Gelderse_Kastelen_Java.models.Kastelen;
 import com.example.Gelderse_Kastelen_Java.repositories.ActiviteitenRepository;
+import com.example.Gelderse_Kastelen_Java.repositories.UserRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -17,6 +18,9 @@ public class ActiviteitenService {
     
     @Autowired
     ActiviteitenRepository activiteitenRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     private EntityManager entityManager;

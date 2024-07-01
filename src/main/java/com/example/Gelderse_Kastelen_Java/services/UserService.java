@@ -13,11 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.example.Gelderse_Kastelen_Java.models.Activiteiten;
 import com.example.Gelderse_Kastelen_Java.models.Rang;
 import com.example.Gelderse_Kastelen_Java.models.TourCalendar;
 import com.example.Gelderse_Kastelen_Java.models.User;
 import com.example.Gelderse_Kastelen_Java.models.UserRegisterDTO;
 import com.example.Gelderse_Kastelen_Java.models.UserLoginDTO;
+import com.example.Gelderse_Kastelen_Java.repositories.ActiviteitenRepository;
 import com.example.Gelderse_Kastelen_Java.repositories.RangenRepository;
 import com.example.Gelderse_Kastelen_Java.repositories.TourRepository;
 import com.example.Gelderse_Kastelen_Java.repositories.UserRepository;
@@ -35,7 +37,10 @@ public class UserService {
     TourRepository tourRepository;
 
     @Autowired
-     RangenRepository rangenRepository;
+    RangenRepository rangenRepository;
+
+    @Autowired
+    ActiviteitenRepository activiteitenRepository;
 
     // Get method
     public Iterable<User> getUsers() {
@@ -62,8 +67,8 @@ public class UserService {
 
             // Set Rang in User entity
             Rang rang = rangenRepository.findById(user.getRangRangenId())
-                                      .orElseThrow(() -> new IllegalArgumentException("Rang not found"));
-            newUser.setRang(rang); 
+                    .orElseThrow(() -> new IllegalArgumentException("Rang not found"));
+            newUser.setRang(rang);
 
             userRepository.save(newUser);
             return user;
@@ -131,7 +136,7 @@ public class UserService {
         dto.setUserEmail(existingAccount.getEmail());
         dto.setUserName(existingAccount.getNaam() + " " + existingAccount.getAchternaam());
         dto.setUserRole(existingAccount.getRol());
-       dto.setRangRangenId(existingAccount.getRang().getRangId());
+        dto.setRangRangenId(existingAccount.getRang().getRangId());
         dto.setUserPunten(existingAccount.getPunten());
         // Map other attributes
         return dto;
@@ -172,17 +177,31 @@ public class UserService {
     }
 
     public void linkTourToUser(Integer userId, Integer tourId) {
-    try {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found"));
-        TourCalendar tour = tourRepository.findById(tourId)
-            .orElseThrow(() -> new RuntimeException("Tour not found"));
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            TourCalendar tour = tourRepository.findById(tourId)
+                    .orElseThrow(() -> new RuntimeException("Tour not found"));
 
-        user.getTour().add(tour);
-        userRepository.save(user);
-    } catch (Exception e) {
-        throw new IllegalArgumentException("An unexpected error occurred while linking the tour to the user.", e);
+            user.getTour().add(tour);
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("An unexpected error occurred while linking the tour to the user.", e);
+        }
+
     }
-}
 
+    public void linkActiviteitToUser(Integer userId, Integer activiteitenId) {
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            Activiteiten activiteit = activiteitenRepository.findById(activiteitenId)
+                    .orElseThrow(() -> new RuntimeException("Tour not found"));
+
+            activiteit.getUser().add(user);
+            userRepository.save(user);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("An unexpected error occurred while linking the tour to the user.", e);
+        }
+    }
 }

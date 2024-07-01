@@ -2,6 +2,7 @@ package com.example.Gelderse_Kastelen_Java.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -60,9 +61,12 @@ public class User {
     @Column(name = "rol")
     private String rol;
 
+    @NotBlank
+    @Column(name = "postcode")
+    private String postcode;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_has_tour", joinColumns = @JoinColumn(name = "user_user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "tour_tour_id", referencedColumnName = "tour_id"))
-    @JsonManagedReference
     private List<TourCalendar> tour;
 
     @OneToMany(mappedBy = "user")
@@ -70,11 +74,8 @@ public class User {
     
     @ManyToOne
     @JoinColumn(name = "rangen_rang_id", referencedColumnName = "rang_id")
-    @JsonManagedReference
     private Rang rang;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_has_activiteiten", joinColumns = @JoinColumn(name = "user_user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "activiteiten_activiteiten_id", referencedColumnName = "activiteiten_id"))
-    private List<Activiteiten> activiteiten;
+    
 
 }

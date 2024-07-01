@@ -35,7 +35,6 @@ public class Foto {
 
 
     @ManyToOne
-  
     @JoinColumn(name="user_user_id", referencedColumnName = "user_id")
     private User user;
 }
