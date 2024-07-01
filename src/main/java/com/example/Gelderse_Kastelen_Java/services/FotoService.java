@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.Gelderse_Kastelen_Java.models.Foto;
+import com.example.Gelderse_Kastelen_Java.models.Kastelen;
 import com.example.Gelderse_Kastelen_Java.models.User;
 import com.example.Gelderse_Kastelen_Java.repositories.FotoRepository;
 import jakarta.persistence.EntityManager;
@@ -34,7 +35,7 @@ public class FotoService {
     }
 
     // Method to post fotos
-    public ResponseEntity<Foto> postFoto(int userId, MultipartFile files) {
+    public ResponseEntity<Foto> postFoto(int userId, int kasteelId, MultipartFile files) {
         try {
             // set the files to byte
             byte[] byteArr = files.getBytes();
@@ -46,6 +47,10 @@ public class FotoService {
             foto.setFotoCol(files.getOriginalFilename());
       
             foto.setFotoUpload(byteArr);
+
+            Kastelen kasteel = entityManager.find(Kastelen.class, kasteelId);
+            foto.setKastelen(kasteel);
+            
             // Find the existing user entity
             User user = entityManager.find(User.class, userId);
             if (user == null) {
@@ -53,6 +58,7 @@ public class FotoService {
             }
             // Establish the relationship
             foto.setUser(user);
+            
             // Persist the changes
             entityManager.merge(foto);
 

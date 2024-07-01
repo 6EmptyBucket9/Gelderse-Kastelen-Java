@@ -54,4 +54,9 @@ public class Kastelen {
     @OneToMany(mappedBy = "kastelen")
     @JsonManagedReference
     private List<Tour> tours;
+
+    @OneToMany(mappedBy = "kastelen")
+    @JsonManagedReference
+    private List<Foto> fotos;
+
 }

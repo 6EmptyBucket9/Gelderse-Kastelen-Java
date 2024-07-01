@@ -1,6 +1,7 @@
 package com.example.Gelderse_Kastelen_Java.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,4 +38,16 @@ public class Foto {
     @JsonBackReference
     @JoinColumn(name="user_user_id", referencedColumnName = "user_id")
     private User user;
-}
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name="kastelen_kastelen_id", referencedColumnName = "kastelen_id")
+    private Kastelen kastelen;
+
+    @JsonProperty(value = "userId")
+    public int getUserId(){
+        return user.getUserId();
+    }
+
+
+}   

@@ -73,5 +73,7 @@ public class User {
     @JoinColumn(name = "rangen_rang_id", referencedColumnName = "rang_id")
     @JsonManagedReference
     private Rang rang;
+ 
+  
 
 }

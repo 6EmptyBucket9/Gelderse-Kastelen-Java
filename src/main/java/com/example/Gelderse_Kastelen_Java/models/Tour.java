@@ -46,7 +46,6 @@ public class Tour {
     private String punten;
 
     @ManyToOne
-  
     @JoinColumn(name="kastelen_kastelen_id", referencedColumnName = "kastelen_id")
     @JsonBackReference
     private Kastelen kastelen;

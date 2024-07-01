@@ -29,10 +29,10 @@ public class FotoController {
     }
 
     //Method to post the foto and link to user
-    @PostMapping(value="/post/foto/{userId}",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value="/post/foto/{userId}/{kasteelId}",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Transactional
-    public ResponseEntity<Foto> createFotoAndLinkToUsers(@PathVariable int userId, @RequestPart(name="files") MultipartFile files) {
-        return fotoService.postFoto(userId, files);
+    public ResponseEntity<Foto> createFotoAndLinkToUsers(@PathVariable int userId, @PathVariable int kasteelId, @RequestPart(name="files") MultipartFile files) {
+        return fotoService.postFoto(userId, kasteelId, files);
     
     }
 }
